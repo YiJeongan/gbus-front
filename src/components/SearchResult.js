@@ -1,22 +1,24 @@
-import {React, useState} from "react";
+import {React, useState, useEffect} from "react";
 import Table from 'react-bootstrap/Table';
-import { addBM, removeBM, setBM } from "../Store";
 import { useDispatch , useSelector } from "react-redux";
+
 
 function SearchResult({searchResultList}){
 
-    let dispatch = useDispatch()
-    let bookmark = useSelector((state)=>(state.bookmark))
-    let busData = useSelector((state)=>state.busData)
     let [info,setInfo] = useState(false)
+    let [result, setResult] =useState(null)
+    useEffect(()=>{
+        setResult(JSON.parse(searchResultList))
+    },[])
 
-    console.log(bookmark)
+
     return(
         <>
         {!info ?
         <>
         <div>
-        <Table>
+            {searchResultList}
+        {/* <Table>
             <thead>
                 <tr>
                 <th>버스 번호</th>
@@ -51,7 +53,7 @@ function SearchResult({searchResultList}){
                 </tr>
         ))}
         </tbody>
-        </Table>
+        </Table> */}
     </div>
     </>
     :

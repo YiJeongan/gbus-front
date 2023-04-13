@@ -1,9 +1,13 @@
 import {React, useState} from 'react';
-import { getBusByName, getBusStopByName } from './api.js';
+import { getBusByName, getBusListByBusStop, getBusStopByName } from './api.js';
+
+
 
 function BusInfo(){
   const [busName, setBusName] = useState('');
+  const [station_name, setStationname] = useState('');
   const [busData, setBusData] = useState(null);
+  const [busListData, setBusListData] = useState(null);
   const [busStopData, setBusStopData] = useState(null);
 
   async function handleGetBusData() {
@@ -24,6 +28,15 @@ function BusInfo(){
     }
   }
 
+  async function handleGetBusDatabyBusStop() {
+    try {
+      const data = await getBusListByBusStop(station_name);
+      setBusListData(data);
+    } catch (error) {
+      console.error('Error fetching bus stop data:', error.message);
+    }
+  }
+
   return (
     <div>
       <input
@@ -36,6 +49,15 @@ function BusInfo(){
       <button onClick={handleGetBusStopData}>Get Bus Stop Info</button>
       {busData && <div>{JSON.stringify(busData)}</div>}
       {busStopData && <div>{JSON.stringify(busStopData)}</div>}
+      <input
+        type="text"
+        value={station_name}
+        onChange={(e) => setStationname(e.target.value)}
+        placeholder="Enter station name"
+      />
+      <button onClick={(handleGetBusDatabyBusStop)}>Get Bus by Bus Stop</button>
+      {busListData &&<div>{JSON.stringify(busListData)}</div>}
+  
     </div>
   );
 
