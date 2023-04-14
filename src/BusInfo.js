@@ -1,5 +1,5 @@
 import {React, useState} from 'react';
-import { getBusByName, getBusListByBusStop, getBusStopByName } from './api.js';
+import { getBusByName, getBusListByBusStop, getBusStopByName, getBusListByName } from './api.js';
 
 
 
@@ -37,6 +37,16 @@ function BusInfo(){
     }
   }
 
+
+  async function handleGetBusListbyName() {
+    try {
+      const data = await getBusListByName(busName);
+      setBusListData(data);
+    } catch (error) {
+      console.error('Error fetching bus stop data:', error.message);
+    }
+  }
+
   return (
     <div>
       <input
@@ -57,6 +67,13 @@ function BusInfo(){
       />
       <button onClick={(handleGetBusDatabyBusStop)}>Get Bus by Bus Stop</button>
       {busListData &&<div>{JSON.stringify(busListData)}</div>}
+      <input
+        type="text"
+        value={busName}
+        onChange={(e)=>setBusName(e.target.value)}
+        placeholder="버스 검색"
+       ></input>
+      <button onClick={(handleGetBusListbyName)}>버스리스트</button>
   
     </div>
   );

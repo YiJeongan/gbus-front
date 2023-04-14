@@ -7,7 +7,6 @@ import { removeBM, setBM } from "../Store";
 function Bookmark(){
 
     let bookmark = useSelector((state)=>{return state.bookmark})
-    console.log(bookmark)
     let dispatch = useDispatch()
 
     return(

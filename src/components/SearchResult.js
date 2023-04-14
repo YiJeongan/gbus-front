@@ -1,60 +1,63 @@
 import {React, useState, useEffect} from "react";
 import Table from 'react-bootstrap/Table';
-import { useDispatch , useSelector } from "react-redux";
 
 
-function SearchResult({searchResultList}){
+function SearchResult({searchResultList},{title}){
 
     let [info,setInfo] = useState(false)
-    let [result, setResult] =useState(null)
+    let [result, setResult] =useState([])
+    let [titleType, setTitleType] =useState(false)
+
     useEffect(()=>{
         setResult(JSON.parse(searchResultList))
-    },[])
 
+    },[searchResultList])
+
+    if (!result || result.length === 0) {
+        return null;
+    }
+
+    if (title === "버스번호"){
+        setTitleType(true)
+    }
 
     return(
         <>
         {!info ?
         <>
         <div>
-            {searchResultList}
-        {/* <Table>
-            <thead>
-                <tr>
-                <th>버스 번호</th>
-                <th>즐겨 찾기</th>
-                </tr>
-            </thead>
-            <tbody>
-                {searchResultList.map((item, index) => (
-                    <tr key={index}>
-                    <td onClick={()=>(
-                        setInfo(!info)
-                    )}>{item.name}</td>
-                    <td>
-                    {
-                    busData[index].bm === false ?
-                    (<button onClick ={()=>{
-                        if(!busData.includes({id:busData[index].id,name:busData[index].name})){
-                        dispatch(addBM({id:busData[index].id,name:busData[index].name}));
-                        dispatch(setBM(index));
-                        }
-                    }}>
-                        즐찾
-                    </button>):(
-                        <button onClick={()=>{
-                            dispatch(removeBM(index))
-                            dispatch(setBM(index))
-                        }}>
-                            즐찾해제
-                        </button>
-                    )
-                        }</td>
-                </tr>
-        ))}
-        </tbody>
-        </Table> */}
-    </div>
+            <Table>
+                <thead>
+                    <tr>
+                        <th>버스 번호</th>
+                    </tr>
+                </thead>
+                {!titleType ?
+                <>
+                <tbody>
+                   <tr>
+                    <td>{result[0]}</td>
+                    </tr> 
+                    <tr>
+                    <td>{result[1]}</td>
+                    </tr>
+                    <tr>
+                    <td>{result[2]}</td>
+                    </tr>
+                    <tr>
+                    <td>{result[3]}</td>
+                    </tr>
+                </tbody>
+                </>
+                :
+                <>
+                <tbody>
+                    <tr>버스리스트</tr>
+                </tbody>
+                </>}
+                
+            </Table>
+        </div>
     </>
     :
     <>

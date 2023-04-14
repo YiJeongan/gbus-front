@@ -11,62 +11,56 @@ import {Dropdown, Form, InputGroup, DropdownButton} from 'react-bootstrap/';
 import SearchResult from './components/SearchResult.js';
 import Login from './Login.js';
 import BusInfo from './BusInfo';
-import { getBusListByBusStop, getBusByName} from './api.js';
+import { getBusListByBusStop, getBusListByName} from './api.js';
 
 
 function App() {
 
   let dispatch = useDispatch()
   const [busName, setBusName] = useState('');
-  const [busData, setBusData] = useState(null);
   let [title, setTitle] = useState("정류장")
   let [inputValue, setInputValue] = useState("")
   let [submitted, setSubmitted] = useState(false)
-  let [searchKeyword, setSearchkeyword] = useState("")
   let [searchResultList, setSearchResultList] = useState([])
   const [station_name, setStationname] = useState('');
   const [busListData, setBusListData] = useState(null);
 
   function handleSubmit(e){
       e.preventDefault();
-      setSearchkeyword(inputValue)
-      search(searchKeyword)
+      if(inputValue.length <= 0){
+        setSubmitted(false)
+        return;
+      }
+
+      search(inputValue)
       console.log(inputValue)
       dispatch(addRS(inputValue))
       setSubmitted(true)
-
-      if(searchKeyword.length <= 0){
-        setSubmitted(false)
-      }
 
   }
 
   function handleInputChange(e){
       setInputValue(e.target.value)
-
-      if (e.target.value.length <= 0){
-        setSubmitted(false)
-      }
+      setSubmitted(false)
   }
 
-  function search(searchKeyword){
+  function search(inputValue){
     if (title === "버스번호"){
-      setBusName(searchKeyword);
-      handleGetBusData();
-      setSearchResultList(JSON.stringify(busData)) 
+      setBusName(inputValue);
+      handleGetBusListbyName(); 
     }else if(title === "정류장"){
-      setStationname(searchKeyword);
+      setStationname(inputValue);
       handleGetBusDatabyBusStop();
-      setSearchResultList(JSON.stringify(busListData))
     }
+    setSearchResultList(JSON.stringify(busListData))
   }
 
-  async function handleGetBusData() {
+  async function handleGetBusListbyName() {
     try {
-      const data = await getBusByName(busName);
-      setBusData(data);
+      const data = await getBusListByName(busName);
+      setBusListData(data);
     } catch (error) {
-      console.error('Error fetching bus data:', error.message);
+      console.error('Error fetching bus stop data:', error.message);
     }
   }
 
@@ -157,7 +151,7 @@ function App() {
             </div>
             </>
             :
-             <SearchResult searchResultList={searchResultList}/>
+             <SearchResult searchResultList={searchResultList} title={title}/>
           }
             </div>
       }></Route>
