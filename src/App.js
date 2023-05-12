@@ -1,5 +1,5 @@
-import {React, useState} from 'react';
-import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom'
+import {React, useEffect, useState} from 'react';
+import { Routes, Route} from 'react-router-dom'
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Tab from 'react-bootstrap/Tab';
@@ -9,9 +9,10 @@ import Search from './pages/Search.js'
 import Login from './pages/Login.js';
 import BusInfo from './BusInfo';
 import Bookmark from './pages/Bookmark';
-import RecentSearch from './pages/RecentSearch';
+import Signup from './pages/SignUp';
 
 function App() {
+
 
 
   return (
@@ -27,7 +28,7 @@ function App() {
                     <Nav.Link href="/">Home</Nav.Link>
                     <Nav.Link href="/login">Login</Nav.Link>
                     <Nav.Link href="/search">Search</Nav.Link>
-                    <Nav.Link href="/businfo">BusInfo</Nav.Link>
+                    <Nav.Link href="/signup">Signup</Nav.Link>
                 </Nav>
                 </Container>
             </Navbar>
@@ -43,9 +44,6 @@ function App() {
           <Tab eventKey="bookMark" title="즐겨찾기">
             <Bookmark/>
            </Tab>
-          <Tab eventKey="recent" title="최근검색어" >
-            <RecentSearch/>
-          </Tab>
           </Tabs>
             </div>
           </>
@@ -61,6 +59,10 @@ function App() {
       <Route path = "/businfo" element={
         <BusInfo></BusInfo>
       }></Route>
+      <Route path = "/signup" element={
+        <Signup/>
+      }></Route>
+
 
       </Routes>
     </div>
