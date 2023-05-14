@@ -35,8 +35,8 @@ function SignUp(props) {
             return alert('비밀번호와 비밀번호 확인이 같지 않습니다.')
         
 
-    }
-}
+        }
+        }
 
     async function handlePostRegister() {
         try {
@@ -49,7 +49,7 @@ function SignUp(props) {
         } catch (error) {
           console.error('Error fetching register:', error.message);
         }
-      }
+    }
 
 
     return (

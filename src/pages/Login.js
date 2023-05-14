@@ -6,7 +6,7 @@ function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [access_token, setAccess_token] = useState(null)
-    
+
     const navigate = useNavigate();
 
     const navigateToLogin=()=>{
@@ -26,8 +26,8 @@ function Login() {
 
         console.log('username', username);
         console.log('Password', password);
-
-    }
+        
+        }
 
     async function handlePostLogin() {
         try {
@@ -40,7 +40,7 @@ function Login() {
         } catch (error) {
           console.error('Error fetching bus stop data:', error.message);
         }
-      }
+    }
 
     return (
         <div style={{ 

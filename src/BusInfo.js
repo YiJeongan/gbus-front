@@ -157,7 +157,7 @@ function BusInfo(){
       </input>
       <button onClick={(handleGetBusListByStationId)}>정류장 아이디로 버스 검색</button>
       {busListData && <div>{JSON.stringify(busListData)}</div>}
-      
+
       <input
       type="text"
       value={station_id}

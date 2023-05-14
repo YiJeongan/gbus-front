@@ -136,7 +136,7 @@ function BusStopList(){
                 <td>{predictTime1Arr[index]}, {predictTime2Arr[index]}</td>
                 <td>{remainSeat1Arr[index]}, {remainSeat2Arr[index]}</td>
               </tr>
-            ))}
+            ))} 
           </tbody>
           
         </Table>
