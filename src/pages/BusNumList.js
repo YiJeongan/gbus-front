@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect, useCallback } from "react";
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Table from 'react-bootstrap/Table';
@@ -13,6 +13,7 @@ function BusNumList(){
     const [busListArr, setBusListArr] = useState([])
     const [busNameListArr, setBusNameListArr] = useState([])
     const [busIdListArr, setBusIdListArr] =useState([])
+    const [busWayListArr, setBusWayListArr] = useState([])
     const [busStopListData,setBusStopListData] = useState(null)
     const [busStopListArr, setBusStopListArr] =useState([])
     const [busId, setBusId] =useState(null)
@@ -24,7 +25,11 @@ function BusNumList(){
     const dispatch = useDispatch()
     const state = useSelector((state)=>state)
 
-    
+    useEffect(() => {
+      if (busStopListData !== null) {
+        handleGetBusStopByBusId();
+      }
+    }, [busStopListData]);
 
     function handleSubmit(e){
         e.preventDefault();
@@ -49,6 +54,7 @@ function BusNumList(){
           setBusListArr(busListArr)
           setBusNameListArr(busListArr.map(bus => bus.bus_name))
           setBusIdListArr(busListArr.map(bus => bus.bus_id))
+          setBusWayListArr(busListArr.map(bus => bus.station_name))
         } catch (error) {
           console.error('Error fetching bus stop data:', error.message);
         }
@@ -57,12 +63,20 @@ function BusNumList(){
       async function handleGetBusStopByBusId() {
         try {
           const data = await getBusStopByBusId(busId);
+          
           setBusStopListData(data);
           const busStopListArr = JSON.parse(JSON.stringify(data));
           setBusStopListArr(busStopListArr)
         } catch (error) {
           console.error('Error fetching bus stop data:', error.message);
         }
+      }
+
+      function handleClick(index) {
+        setBusInfo(true);
+        setBusName(busNameListArr[index]);
+        setBusId(busIdListArr[index]);
+        handleGetBusStopByBusId();
       }
 
 
@@ -92,20 +106,14 @@ function BusNumList(){
         <thead>
           <tr>
             <th>버스번호</th>
-            <th>ID</th>
+            <th>방면 (종점)</th>
           </tr>
         </thead>
         <tbody>
           {busNameListArr.map((busName, index) => (
             <tr key={index}>
-            <td onClick={()=>{
-              setBusInfo(true)
-              setBusName((busNameListArr[index]))
-              setBusId((busIdListArr[index]))
-              addRS(busNameListArr[index])
-              handleGetBusStopByBusId();
-              }}>{busName}</td>
-            <td>{busIdListArr[index]}</td>
+            <td onClick={() => handleClick(index)}>{busName}</td>
+          <td>{busWayListArr[index]}</td>
         </tr>
         ))}
       </tbody>
