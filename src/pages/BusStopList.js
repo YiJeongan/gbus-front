@@ -15,7 +15,7 @@ function BusStopList(){
     const [busListData, setBusListData] = useState(null)
     const [busListArr, setBusListArr] = useState([])
     const [busStopId, setBusStopId] =useState(null)
-    const[busStopIdArr,setBusStopIdArr] = useState(null)
+    const [busStopIdArr,setBusStopIdArr] = useState(null)
     const [busIdArr, setBusIdArr] = useState(null)
     const [predictTime1Arr, setPredictTime1Arr] = useState(null)
     const [predictTime2Arr, setPredictTime2Arr] = useState(null)
@@ -56,17 +56,15 @@ function BusStopList(){
 
     async function handleGetBusArrivalListByStationId() {
       try {
-        console.log(stationId)
         const data = await getBusArrivalList(stationId);
         setBusListData(data);
         const busListArr = JSON.parse(JSON.stringify(data))
         setBusListArr(busListArr)
-        setBusIdArr(busListArr.map(bus => bus.route_id))
+        setBusIdArr(busListArr.map(bus => bus.bus_name))
         setPredictTime1Arr(busListArr.map(predict1 => predict1.predictTime1))
         setPredictTime2Arr(busListArr.map(predict2 => predict2.predictTime2))
         setRemainSeat1Arr(busListArr.map(seat1 => seat1.remainSeatCnt1))
         setRemainSeat2Arr(busListArr.map(seat2 => seat2.remainSeatCnt2))
-        console.log(busListArr)
       } catch (error) {
         console.error('Error fetching bus data:', error.message);
       }
@@ -109,6 +107,7 @@ function BusStopList(){
                   setBusStopName(busStopNameArr[index])
                   setStationId(busStopIdArr[index])
                   handleGetBusArrivalListByStationId();
+                  console.log(stationId)
                   }}>{busStopName}</td>
                  <td>{busStopWayArr[index]}</td>
              </tr>
@@ -134,7 +133,7 @@ function BusStopList(){
             {busIdArr && busIdArr.map((busId, index) => (
               <tr key={index}>
                 <td>{busId}</td>
-                <td>{predictTime1Arr[index]}, {predictTime2Arr[index]}</td>
+                <td>{predictTime1Arr[index]}, {predictTime2Arr[index] && predictTime2Arr[index]}</td>
                 <td>{remainSeat1Arr[index]}, {remainSeat2Arr[index]}</td>
               </tr>
             ))} 
